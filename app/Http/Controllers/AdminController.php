@@ -22,6 +22,25 @@ class AdminController extends Controller
         }
         return view('admin.dashboard',compact('memcount'));
     }
+    public function SuperAdmin()
+    {
+        $userid = Auth::user()->id;
+        if(Auth::check()){
+            $sql = "select count(*) as admcount from users where role_id = 2";
+            $bill = DB::select(DB::raw($sql));
+            if (count($bill) > 0) {
+                $admcount = $bill[0]->admcount;
+            }
+        }
+        if(Auth::check()){
+            $sql = "select count(*) as memscount from users where role_id = 3";
+            $bill = DB::select(DB::raw($sql));
+            if (count($bill) > 0) {
+                $memscount = $bill[0]->memscount;
+            }
+        }
+        return view('superadmin.dashboard',compact('admcount','memscount'));
+    }
 
     public function addmember(Request $request)
     {

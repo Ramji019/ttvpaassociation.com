@@ -15,10 +15,10 @@ class LoginController extends Controller
         if (Auth::attempt($credentials)) {
             $user = Auth::user();
 
-            if ($user->role->name === 'Admin') {
+            if ($user->role->name === 'SuperAdmin') {
+                return redirect()->route('superadmin.dashboard');
+            } elseif ($user->role->name === 'Admin') {
                 return redirect()->route('admin.dashboard');
-            } elseif ($user->role->name === 'Member') {
-                return redirect()->route('members.dashboard');
             } else {
                 return redirect()->route('client.dashboard');
             }
